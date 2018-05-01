@@ -33,11 +33,11 @@ class ListSourceViewHolder extends RecyclerView.ViewHolder implements View.OnCli
     protected TextView source_title;
     protected CircleImageView source_image;
 
-    public ListSourceViewHolder(View itemView) {
+    ListSourceViewHolder(View itemView) {
         super(itemView);
 
-        source_image = (CircleImageView) itemView.findViewById(R.id.source_image);
-        source_title = (TextView) itemView.findViewById(R.id.source_name);
+        source_image =  itemView.findViewById(R.id.source_image);
+        source_title =  itemView.findViewById(R.id.source_name);
 
         itemView.setOnClickListener(this);
     }
@@ -113,7 +113,7 @@ public class ListSourceAdapter extends  RecyclerView.Adapter<ListSourceViewHolde
 
     @Override
     public int getItemCount() {
-        return webSite.getSources().size();
+        return  webSite != null ? webSite.getSources().size() : 0;
     }
 }
 

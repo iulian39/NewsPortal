@@ -2,6 +2,7 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ListNews">
@@ -13,7 +14,7 @@
         <com.github.florent37.diagonallayout.DiagonalLayout
             android:id="@+id/diagonalLayout"
             android:layout_width="match_parent"
-            app:diagonal_angle="7"
+            app:diagonal_angle="3"
             app:diagonal_direction="left"
             app:diagonal_position="bottom"
             android:layout_height="250dp">
@@ -31,6 +32,7 @@
                 <TextView
                     android:id="@+id/top_author"
                     android:layout_alignParentTop="true"
+                    android:textColor="@android:color/white"
                     android:fontFamily="sans-serif"
                     android:layout_marginLeft="30dp"
                     android:layout_marginBottom="30dp"
@@ -56,16 +58,20 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"/>
                 </LinearLayout>
             </RelativeLayout>
 
         </com.github.florent37.diagonallayout.DiagonalLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lstNews"
+            android:layout_below="@id/diagonalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lstNews"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
 
 </android.support.v4.widget.SwipeRefreshLayout>

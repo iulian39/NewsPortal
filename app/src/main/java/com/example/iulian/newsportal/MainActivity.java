@@ -1,6 +1,11 @@
 package com.example.iulian.newsportal;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         newsService = Common.getNewsService();
 
         //Init view
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -47,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        listWebsite = (RecyclerView)findViewById(R.id.list_source);
+        listWebsite = findViewById(R.id.list_source);
         listWebsite.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this );
         listWebsite.setLayoutManager(layoutManager);
@@ -57,10 +62,43 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public boolean isOnline()
+    {
+
+        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
+    public AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or Wi-Fi to access this. Press ok to Exit");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                finish();
+            }
+        });
+
+        return builder;
+    }
+
     private void loadWebsiteSource(boolean isRefreshed)
     {
+        if(!isOnline())
+        {
+            buildDialog(this).show();
+        }
         if(!isRefreshed)
         {
+            swipeRefreshLayout.setRefreshing(false); // prevent a bug with refresh circle
             String cache = Paper.book().read("cache");
             if(cache != null && !cache.equals("null") && !cache.isEmpty()) // if the cache exists
             {
@@ -114,4 +152,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
+
 }

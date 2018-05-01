@@ -23,4 +23,18 @@ public class Common {
     {
         return FaviconClient.getClient(FAVICONFINDER_URL).create(FaviconService.class);
     }
+    //https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=API_KEY
+
+    public static String getNewsUrl(String source)
+    {
+        StringBuilder builder = new StringBuilder("https://newsapi.org/v2/top-headlines?sources=");
+        builder.append(source);
+        builder.append("&apiKey=");
+        builder.append(API_KEY);
+        return builder.toString();
+    }
+
+
+
+
 }
